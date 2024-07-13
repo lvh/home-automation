@@ -1,0 +1,28 @@
+{:tasks
+ {update-oui-csv
+  {:doc "Update MAC address vendor lookup table"
+   :requires
+   ([babashka.http-client :as http]
+    [clojure.java.io :as io])
+   :task
+   (let [src "https://standards-oui.ieee.org/oui/oui.csv"
+         dst (io/file "resources/oui.csv")]
+     (-> src (http/get {:as :stream}) :body (io/copy dst)))}
+
+  update-vendored-deps
+  {:doc "Update vendored dependencies"
+   :depends [update-oui-csv]
+   :parallel true}
+
+  native-image
+  {:doc "Build a native image out of the uberjar."
+   :requires
+   ([babashka.process :as p]
+    [babashka.fs :as fs]
+    [clojure.string :as str])
+   :task
+   (let [jar (-> (fs/glob "target/" "**/home-automation-*.jar") first str)]
+     (p/sh
+      "native-image" "-jar" jar
+      "--verbose" "--no-fallback" "--no-server"
+      "--features=clj_easy.graal_build_time.InitClojureClasses"))}}}

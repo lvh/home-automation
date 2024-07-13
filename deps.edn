@@ -1,0 +1,56 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+
+        ;; native-image builds
+        com.github.clj-easy/graal-build-time {:mvn/version "1.0.5"}
+
+        ;; HTTP client
+        hato/hato {:mvn/version "0.9.0"}
+
+        ;; Data analysis
+        meander/epsilon {:mvn/version "0.0.650"}
+        com.rpl/specter {:mvn/version "1.1.4"}
+
+        ;; Fancy text-based UI
+        io.github.lispyclouds/bblgum
+        {:git/sha "b1b939ae5ae522a55499a8260b450e8898f77781"}
+
+        ;; DNS & mDNS discovery
+        org.jmdns/jmdns {:mvn/version "3.5.9"}
+        dnsjava/dnsjava {:mvn/version "3.5.3"}
+
+        ;; Run subprocesses
+        babashka/fs {:mvn/version "0.5.20"}
+        babashka/process {:mvn/version "0.5.21"}
+
+        ;; Parsing and formatting
+        metosin/jsonista {:mvn/version "0.3.8"}
+        org.clojure/data.csv {:mvn/version "1.0.1"}
+        clj-commons/clj-yaml {:mvn/version "1.0.27"}
+        camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
+
+        ;; Is Java logging OK? (Answer: no)
+        com.taoensso/timbre {:mvn/version "6.3.1"}
+        com.fzakaria/slf4j-timbre {:mvn/version "0.4.1"}}
+
+ :aliases
+ {:build
+  {:deps
+   {io.github.clojure/tools.build
+    {:git/tag "v0.9.6" :git/sha "8e78bcc"}}
+   :ns-default build}
+
+  :dev
+  {:extra-paths ["test" "test-resources"]
+   :extra-deps
+   {;; Fancy introspection tools:
+    djblue/portal {:mvn/version "0.40.0"}
+    ;; Test-focused deps
+    org.clojure/test.check {:mvn/version "1.1.1"}
+    com.gfredericks/test.chuck {:mvn/version "0.2.14"}}}
+
+  :test
+  {:main-opts ["-m" "kaocha.runner"]
+   :extra-deps
+   {lambdaisland/kaocha {:mvn/version "1.82.1306"}
+    lambdaisland/kaocha-junit-xml {:mvn/version "1.17.101"}}}}}
