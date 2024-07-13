@@ -118,7 +118,7 @@
 (def ipv4-re
   (->> ipv4-octet-re (repeat 4) (str/join "\\.") re-pattern))
 
-(defn get-default-gateway-ip
+(defn get-default-gateway-ip!
   "Consult the OS routing table to find the IP of the default gateway."
   []
   (let [[dst gw] [first second]
@@ -136,11 +136,11 @@
      first gw)))
 
 (comment
-  (get-default-gateway-ip))
+  (get-default-gateway-ip!))
 
 ;; Default gateway of 192.0.0.1 usually means you're tethered.
 
-(defn local-reverse-lookup
+(defn local-reverse-lookup!
   "Do a reverse lookup against a specific resolver. This is useful if you're
   trying to determine local host names."
   [ip dns-server]
